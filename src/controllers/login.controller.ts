@@ -10,18 +10,30 @@ import Token from "../class/token";
 import verificarToken from "../middleware/authentication";
 import { validateUser, validateUserUpdate } from "../schemas/user.schema";
 import Convert from "../class/convert";
+import Pagination from "../class/pagination";
 
 export default class LoginController{
 
     @GET({path:'/users',middlewares:[verificarToken]})
     async users( req:Request,res:Response ){
         try {
-            let users:User[] = await getRepository(User).find();
-            users = users.map((user:User)=>{ 
+
+            let limit = Convert.number( (req.query.limit as any || '2') );
+            let page = Convert.number( (req.query.page as any || '1') );
+
+            let [result,total] = await getRepository(User).findAndCount({
+                take:limit,
+                skip:Pagination.calculateTake( page,limit )
+            });
+            result = result.map((user:User)=>{ 
                 delete user.password;
                 return user;
             });
-            return res.json( users );
+
+            const pagination = new Pagination( page,limit,total );
+            pagination.data = result;
+
+            return res.json( pagination );
         } catch (error) {
             return res.status(400).json({
                 message: error
@@ -95,9 +107,22 @@ export default class LoginController{
         }
     }
 
-    @DELETE({path:'/users/:id'})
+    @DELETE({path:'/users/:id',middlewares:[verificarToken]})
     async delete( req:Request,res:Response ){
+        try {
+            let id:number = Convert.number( req.params.id );
 
+            const results = await getRepository(User).delete( id );
+
+            return res.json( {
+                ok:true
+            } );
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                message: error
+            })
+        }
     }
 
 }
