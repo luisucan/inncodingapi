@@ -1,7 +1,25 @@
-# Awesome Project Build with TypeORM
+# API
 
-Steps to run this project:
+[![N|Solid](https://www.inncoding.io/_nuxt/img/fb1c153.png)](https://nodesource.com/products/nsolid)
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+## Instalación
+
+Instalar dependencias e iniciar el servidor en desarrollo
+
+```sh
+cd inncodingapi
+npm i
+npm run dev
+```
+
+Para modo producción...
+
+```sh
+npm run prod
+```
+
+Para construir el proyecto...
+
+```sh
+npm run build
+```
