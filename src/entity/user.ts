@@ -31,4 +31,7 @@ export class User {
     @IsNotEmpty({message:'The status is required'})
     status: number;
 
+    @Column()
+    phonenumber: string;
+
 }
