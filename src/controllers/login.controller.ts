@@ -32,7 +32,7 @@ export default class LoginController{
 
             const pagination = new Pagination( page,limit,total );
             pagination.data = result;
-
+            
             return res.json( pagination );
         } catch (error) {
             return res.status(400).json({

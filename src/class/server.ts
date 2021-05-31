@@ -1,6 +1,6 @@
 import express = require('express');
 import cors from 'cors';
-import '../pathControllers/pathsControllers.ts';
+import '../pathControllers/pathsControllers';
 import { appRouter } from '../decorators/rest.decorators';
 
 export default class Server{
